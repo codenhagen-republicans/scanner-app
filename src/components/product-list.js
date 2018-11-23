@@ -5,6 +5,7 @@ import {
 	View,
 	Text,
 	TouchableOpacity,
+	ActivityIndicator,
 } from 'react-native';
 
 export default class ProductList extends React.Component {
@@ -24,6 +25,10 @@ export default class ProductList extends React.Component {
 		const removeFn =
 			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
 
+		if (item.loading) {
+			return this.renderLoading();
+		}
+
 		return (
 			<View style={styles.item}>
 				<View style={styles.label}>
@@ -42,6 +47,17 @@ export default class ProductList extends React.Component {
 				<Text style={styles.emptyListText}>
 					Scan the first product to start
 				</Text>
+			</View>
+		);
+	};
+
+	renderLoading = () => {
+		return (
+			<View style={styles.item}>
+				<ActivityIndicator size="small" color="#999" style={styles.activity} />
+				<View style={styles.label}>
+					<Text style={styles.loadingText}>Loading…</Text>
+				</View>
 			</View>
 		);
 	};
@@ -72,5 +88,11 @@ const styles = StyleSheet.create({
 	emptyListText: {
 		fontSize: 18,
 		textAlign: 'center',
+	},
+	activity: {
+		marginRight: 6,
+	},
+	loadingText: {
+		color: '#aaa',
 	},
 });

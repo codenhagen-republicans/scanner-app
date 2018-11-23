@@ -7,7 +7,7 @@ export default class ProductsContainer extends Container {
 
 	barCodeRead = barCode => {
 		const { data } = barCode;
-		this.add({ key: data, title: data });
+		this.add({ key: data, title: data, loading: true });
 	};
 
 	add = product => {
@@ -18,6 +18,10 @@ export default class ProductsContainer extends Container {
 		this.setState({
 			products: [...this.state.products, product],
 		});
+
+		setTimeout(() => {
+			this.update(product.key, { loading: false });
+		}, 350);
 	};
 
 	remove = productKey => {
@@ -26,5 +30,15 @@ export default class ProductsContainer extends Container {
 				product => product.key !== productKey
 			),
 		});
+	};
+
+	update = (productKey, info) => {
+		const products = this.state.products.map(product => {
+			if (product.key === productKey) {
+				return { ...product, ...info };
+			}
+			return product;
+		});
+		this.setState({ products });
 	};
 }
