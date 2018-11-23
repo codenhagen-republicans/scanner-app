@@ -4,9 +4,9 @@ import {
 	FlatList,
 	View,
 	Text,
-	TouchableOpacity,
 	ActivityIndicator,
 } from 'react-native';
+import RemoveButton from './remove-button';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
@@ -26,21 +26,30 @@ export default class ProductList extends React.Component {
 	}
 
 	renderItem = ({ item }) => {
+		if (item.loading) {
+			return this.renderItemLoading();
+		}
+
 		const removeFn =
 			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
-
-		if (item.loading) {
-			return this.renderLoading();
-		}
 
 		return (
 			<View style={styles.item}>
 				<View style={styles.label}>
 					<Text>{item.title}</Text>
 				</View>
-				<TouchableOpacity onPress={removeFn}>
-					<Text>Remove</Text>
-				</TouchableOpacity>
+				<RemoveButton onPress={removeFn} />
+			</View>
+		);
+	};
+
+	renderItemLoading = () => {
+		return (
+			<View style={styles.item}>
+				<ActivityIndicator size="small" color="#999" style={styles.activity} />
+				<View style={styles.label}>
+					<Text style={styles.loadingText}>Loading…</Text>
+				</View>
 			</View>
 		);
 	};
@@ -54,17 +63,6 @@ export default class ProductList extends React.Component {
 			</View>
 		);
 	};
-
-	renderLoading = () => {
-		return (
-			<View style={styles.item}>
-				<ActivityIndicator size="small" color="#999" style={styles.activity} />
-				<View style={styles.label}>
-					<Text style={styles.loadingText}>Loading…</Text>
-				</View>
-			</View>
-		);
-	};
 }
 
 const styles = StyleSheet.create({
@@ -73,10 +71,12 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		flexDirection: 'row',
-		paddingTop: 14,
+		alignItems: 'center',
+		paddingTop: 16,
 		paddingLeft: 20,
 		paddingRight: 20,
-		paddingBottom: 14,
+		paddingBottom: 16,
+		minHeight: 64,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ccc',
 	},
