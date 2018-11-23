@@ -12,6 +12,10 @@ export default class ProductList extends React.Component {
 	removeFns = [];
 
 	render() {
+		if (this.props.products.length === 0) {
+			return this.renderEmpty();
+		}
+
 		return (
 			<FlatList
 				data={this.props.products}
@@ -43,7 +47,7 @@ export default class ProductList extends React.Component {
 
 	renderEmpty = () => {
 		return (
-			<View style={styles.emptyList}>
+			<View style={[styles.item, styles.emptyList]}>
 				<Text style={styles.emptyListText}>
 					Scan the first product to start
 				</Text>
@@ -80,10 +84,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	emptyList: {
-		paddingTop: 14,
-		paddingLeft: 20,
-		paddingRight: 20,
-		paddingBottom: 14,
+		flexDirection: 'column',
+		paddingTop: 28,
+		paddingBottom: 28,
 	},
 	emptyListText: {
 		fontSize: 18,
