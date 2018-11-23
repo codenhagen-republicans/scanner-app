@@ -56,7 +56,7 @@ export default class ProductList extends React.Component {
 
 	renderEmpty = () => {
 		return (
-			<View style={[styles.item, styles.emptyList]}>
+			<View style={styles.emptyList}>
 				<Text style={styles.emptyListText}>
 					Scan the first product to start
 				</Text>
@@ -84,9 +84,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	emptyList: {
-		flexDirection: 'column',
-		paddingTop: 28,
-		paddingBottom: 28,
+		paddingTop: 32,
+		paddingLeft: 20,
+		paddingRight: 20,
+		paddingBottom: 32,
 	},
 	emptyListText: {
 		fontSize: 18,

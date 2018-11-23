@@ -1,33 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { Provider, Subscribe } from 'unstated';
-import ProductsContainer from './state/products';
-import Scanner from './components/scanner';
-import ProductList from './components/product-list';
+import RouterContainer from './state/router';
+import RouteIndex from './components/route-index';
+import RouteScanner from './components/route-scanner';
+import RouteNotFound from './components/route-not-found';
 
 export default class App extends React.Component {
 	render() {
 		return (
 			<Provider>
-				<Subscribe to={[ProductsContainer]}>
-					{products => (
-						<View style={styles.container}>
-							<Scanner onBarCodeRead={products.barCodeRead} />
-							<ProductList
-								products={products.state.products}
-								onRemove={products.remove}
-							/>
-						</View>
-					)}
+				<Subscribe to={[RouterContainer]}>
+					{router => {
+						switch (router.state.view) {
+							case 'index':
+								return <RouteIndex />;
+							case 'scanner':
+								return <RouteScanner />;
+							default:
+								return <RouteNotFound />;
+						}
+					}}
 				</Subscribe>
 			</Provider>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-});
