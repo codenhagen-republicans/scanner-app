@@ -1,3 +1,6 @@
+import 'es6-symbol/implement'
+
+
 import React from 'react';
 import { Provider, Subscribe } from 'unstated';
 import RouterContainer, { INDEX, SCANNER } from './state/router';
