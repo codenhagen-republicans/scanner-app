@@ -51,7 +51,7 @@ export default class ProductsContainer extends Container {
 		}
 
 		this.setState({
-			products: [...this.state.products, product],
+			products: [product, ...this.state.products],
 		});
 	};
 
