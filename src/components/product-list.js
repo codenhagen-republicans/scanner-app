@@ -16,12 +16,22 @@ export default class ProductList extends React.Component {
 			return this.renderEmpty();
 		}
 
+		const sumCo2 = this.props.products.reduce(
+			(sum, product) => sum + product.co2 || 0,
+			0
+		);
+
 		return (
-			<FlatList
-				data={this.props.products}
-				style={styles.list}
-				renderItem={this.renderItem}
-			/>
+			<>
+				<FlatList
+					data={this.props.products}
+					style={styles.list}
+					renderItem={this.renderItem}
+				/>
+				<View style={styles.sum}>
+					<Text>Sum: {sumCo2} kg CO₂</Text>
+				</View>
+			</>
 		);
 	}
 
@@ -37,6 +47,9 @@ export default class ProductList extends React.Component {
 			<View style={styles.item}>
 				<View style={styles.label}>
 					<Text>{item.title}</Text>
+				</View>
+				<View style={styles.impact}>
+					<Text>{item.co2} kg CO₂</Text>
 				</View>
 				<RemoveButton onPress={removeFn} />
 			</View>
@@ -69,6 +82,12 @@ const styles = StyleSheet.create({
 	list: {
 		flex: 1,
 	},
+	sum: {
+		paddingTop: 16,
+		paddingLeft: 20,
+		paddingRight: 20,
+		paddingBottom: 20,
+	},
 	item: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -82,6 +101,9 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		flex: 1,
+	},
+	impact: {
+		marginRight: 12,
 	},
 	emptyList: {
 		paddingTop: 32,

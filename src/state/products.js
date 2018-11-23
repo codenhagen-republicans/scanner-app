@@ -20,7 +20,10 @@ export default class ProductsContainer extends Container {
 		});
 
 		setTimeout(() => {
-			this.update(product.key, { loading: false });
+			this.update(product.key, {
+				loading: false,
+				co2: Math.floor(Math.random() * 100) / 100,
+			});
 		}, 350);
 	};
 
