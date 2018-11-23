@@ -11,7 +11,7 @@ export default function RouteIndex() {
 					<Text style={styles.title}>Welcome!</Text>
 					<TouchableOpacity
 						onPress={() => {
-							router.go('scanner');
+							router.goToScanner();
 						}}
 						style={styles.button}
 					>

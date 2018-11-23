@@ -11,7 +11,7 @@ export default function RouteNotFound() {
 					<Text style={styles.title}>Route not found</Text>
 					<TouchableOpacity
 						onPress={() => {
-							router.go('start');
+							router.goToIndex();
 						}}
 						style={styles.button}
 					>

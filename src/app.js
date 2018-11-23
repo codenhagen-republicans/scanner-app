@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider, Subscribe } from 'unstated';
-import RouterContainer from './state/router';
+import RouterContainer, { INDEX, SCANNER } from './state/router';
 import RouteIndex from './components/route-index';
 import RouteScanner from './components/route-scanner';
 import RouteNotFound from './components/route-not-found';
@@ -12,9 +12,9 @@ export default class App extends React.Component {
 				<Subscribe to={[RouterContainer]}>
 					{router => {
 						switch (router.state.view) {
-							case 'index':
+							case INDEX:
 								return <RouteIndex />;
-							case 'scanner':
+							case SCANNER:
 								return <RouteScanner />;
 							default:
 								return <RouteNotFound />;
