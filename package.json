@@ -12,7 +12,6 @@
     "android-clean": "cd android && ./gradlew clean && ./gradlew cleanBuildCache"
   },
   "dependencies": {
-    "es6-symbol": "^3.1.1",
     "react": "16.6.1",
     "react-native": "0.57.5",
     "react-native-camera": "^1.4.3",

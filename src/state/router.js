@@ -1,7 +1,7 @@
 import { Container } from 'unstated';
 
-export const INDEX = Symbol('index');
-export const SCANNER = Symbol('scanner');
+export const INDEX = 'ROUTE_INDEX';
+export const SCANNER = 'ROUTE_SCANNER';
 
 export default class RouterContainer extends Container {
 	state = {

@@ -1,9 +1,9 @@
 import { Container } from 'unstated';
 import Config from 'react-native-config';
 
-export const LOADING = Symbol('loading');
-export const FAILED = Symbol('failed');
-export const LOADED = Symbol('loaded');
+export const LOADING = 'PRODUCT_LOADING';
+export const FAILED = 'PRODUCT_FAILED';
+export const LOADED = 'PRODUCT_LOADED';
 
 const wait = ms =>
 	new Promise(resolve => {
