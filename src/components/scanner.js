@@ -8,7 +8,7 @@ export default class Scanner extends React.Component {
 			<View style={styles.videoContainer}>
 				<RNCamera
 					style={styles.camera}
-					ratio="16:9"
+					ratio="4:3"
 					onBarCodeRead={this.props.onBarCodeRead}
 				/>
 			</View>
