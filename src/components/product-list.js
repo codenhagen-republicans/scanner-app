@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import ListButton from './list-button';
 import { LOADING, FAILED } from '../state/products';
+import SumBar from './sum-bar';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
@@ -30,9 +31,7 @@ export default class ProductList extends React.Component {
 					style={styles.list}
 					renderItem={this.renderItem}
 				/>
-				<View style={styles.sum}>
-					<Text>Sum: {sumCo2} kg CO₂</Text>
-				</View>
+				<SumBar sum={sumCo2} />
 			</>
 		);
 	}
@@ -50,8 +49,9 @@ export default class ProductList extends React.Component {
 
 		return (
 			<View style={styles.item}>
+				<View style={styles.imagePlaceholder} />
 				<View style={styles.label}>
-					<Text>{item.title}</Text>
+					<Text style={styles.labelText}>{item.title}</Text>
 				</View>
 				<View style={styles.impact}>
 					<Text>{item.co2} kg CO₂</Text>
@@ -105,26 +105,30 @@ export default class ProductList extends React.Component {
 const styles = StyleSheet.create({
 	list: {
 		flex: 1,
-	},
-	sum: {
-		paddingTop: 16,
-		paddingLeft: 20,
-		paddingRight: 20,
-		paddingBottom: 20,
+		paddingTop: 10,
 	},
 	item: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingTop: 16,
+		paddingTop: 10,
 		paddingLeft: 20,
 		paddingRight: 20,
-		paddingBottom: 16,
+		paddingBottom: 10,
 		minHeight: 64,
 		borderBottomWidth: 1,
-		borderBottomColor: '#ccc',
+		borderBottomColor: '#ddd',
+	},
+	imagePlaceholder: {
+		width: 64,
+		height: 64,
+		backgroundColor: '#000',
+		marginRight: 12,
 	},
 	label: {
 		flex: 1,
+	},
+	labelText: {
+		fontWeight: 'bold',
 	},
 	impact: {
 		marginRight: 12,

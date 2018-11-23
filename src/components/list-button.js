@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 export default function ListButton({ children, style, ...props }) {
 	return (
 		<TouchableOpacity
-			style={[style, styles.button]}
+			style={[styles.button, style]}
 			activeOpacity={0.35}
 			{...props}
 		>
@@ -15,13 +15,16 @@ export default function ListButton({ children, style, ...props }) {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: '#eee',
-		borderRadius: 20,
+		backgroundColor: '#000',
+		borderRadius: 100,
 		padding: 5,
 		paddingLeft: 8,
 		paddingRight: 8,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	text: { color: '#000' },
+	text: {
+		color: '#fff',
+		fontWeight: 'bold',
+	},
 });
