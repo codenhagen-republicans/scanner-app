@@ -1,4 +1,14 @@
 import { Container } from 'unstated';
+import Config from 'react-native-config';
+
+export const LOADING = Symbol('loading');
+export const FAILED = Symbol('failed');
+export const LOADED = Symbol('loaded');
+
+const wait = ms =>
+	new Promise(resolve => {
+		setTimeout(resolve, ms);
+	});
 
 export default class ProductsContainer extends Container {
 	state = {
@@ -6,8 +16,33 @@ export default class ProductsContainer extends Container {
 	};
 
 	barCodeRead = barCode => {
-		const { data } = barCode;
-		this.add({ key: data, title: data, loading: true });
+		const { data: ean } = barCode;
+		this.fetch(ean);
+	};
+
+	fetch = async ean => {
+		this.add({ key: ean, status: LOADING });
+		await wait(300);
+		try {
+			// TODO: correct url
+			const response = await fetch(
+				`${Config.API_URL}/footprint?ean=${encodeURIComponent(ean)}`,
+				{
+					method: 'get',
+				}
+			);
+			const product = await response.json();
+			this.update(ean, {
+				status: LOADED,
+				title: product.title,
+				co2: product.co2,
+				image: product.image,
+			});
+		} catch (e) {
+			this.update(ean, {
+				status: FAILED,
+			});
+		}
 	};
 
 	add = product => {
@@ -18,13 +53,6 @@ export default class ProductsContainer extends Container {
 		this.setState({
 			products: [...this.state.products, product],
 		});
-
-		setTimeout(() => {
-			this.update(product.key, {
-				loading: false,
-				co2: Math.floor(Math.random() * 100) / 100,
-			});
-		}, 350);
 	};
 
 	remove = productKey => {
@@ -43,5 +71,12 @@ export default class ProductsContainer extends Container {
 			return product;
 		});
 		this.setState({ products });
+	};
+
+	retry = ean => {
+		this.update(ean, {
+			status: LOADING,
+		});
+		this.fetch(ean);
 	};
 }

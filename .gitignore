@@ -1,3 +1,7 @@
+# Config
+#
+.env
+
 # OSX
 #
 .DS_Store

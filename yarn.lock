@@ -4672,6 +4672,11 @@ react-native-camera@^1.4.3:
     lodash "^4.17.10"
     prop-types "^15.6.2"
 
+react-native-config@^0.11.6:
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.6.tgz#efe9027be534629a41a4561de50f76f40dabb78a"
+  integrity sha512-7GawMkZ3/w7dL9ah2EEhNRyHnMRtsbgAPPIDFX8ODDfhvTM0CzPL23bF5KrKmx13jjNrd6/scW9iyorEEPnYcQ==
+
 react-native@0.57.5:
   version "0.57.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.57.5.tgz#f1dbcbf1f889845fba954f3e0d47e61cf89d41d9"

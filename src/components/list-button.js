@@ -1,10 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function RemoveButton(props) {
+export default function ListButton({ children, style, ...props }) {
 	return (
-		<TouchableOpacity style={styles.button} activeOpacity={0.35} {...props}>
-			<Text style={styles.text}>Remove</Text>
+		<TouchableOpacity
+			style={[style, styles.button]}
+			activeOpacity={0.35}
+			{...props}
+		>
+			<Text style={styles.text}>{children}</Text>
 		</TouchableOpacity>
 	);
 }

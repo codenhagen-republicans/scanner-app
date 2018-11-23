@@ -6,10 +6,12 @@ import {
 	Text,
 	ActivityIndicator,
 } from 'react-native';
-import RemoveButton from './remove-button';
+import ListButton from './list-button';
+import { LOADING, FAILED } from '../state/products';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
+	retryFns = [];
 
 	render() {
 		if (this.props.products.length === 0) {
@@ -36,8 +38,11 @@ export default class ProductList extends React.Component {
 	}
 
 	renderItem = ({ item }) => {
-		if (item.loading) {
-			return this.renderItemLoading();
+		switch (item.status) {
+			case LOADING:
+				return this.renderItemLoading();
+			case FAILED:
+				return this.renderItemFailed(item);
 		}
 
 		const removeFn =
@@ -51,7 +56,7 @@ export default class ProductList extends React.Component {
 				<View style={styles.impact}>
 					<Text>{item.co2} kg CO₂</Text>
 				</View>
-				<RemoveButton onPress={removeFn} />
+				<ListButton onPress={removeFn}>Remove</ListButton>
 			</View>
 		);
 	};
@@ -63,6 +68,25 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text style={styles.loadingText}>Loading…</Text>
 				</View>
+			</View>
+		);
+	};
+
+	renderItemFailed = item => {
+		const retryFn =
+			this.retryFns[item.key] || (() => this.props.onRetry(item.key));
+		const removeFn =
+			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
+
+		return (
+			<View style={styles.item}>
+				<View style={styles.label}>
+					<Text>Couldn’t load product information.</Text>
+				</View>
+				<ListButton onPress={retryFn} style={styles.retryButton}>
+					Retry
+				</ListButton>
+				<ListButton onPress={removeFn}>Remove</ListButton>
 			</View>
 		);
 	};
@@ -120,5 +144,8 @@ const styles = StyleSheet.create({
 	},
 	loadingText: {
 		color: '#aaa',
+	},
+	retryButton: {
+		marginRight: 8,
 	},
 });

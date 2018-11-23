@@ -14,6 +14,7 @@ export default function RouteScanner() {
 					<ProductList
 						products={products.state.products}
 						onRemove={products.remove}
+						onRetry={products.retry}
 					/>
 				</View>
 			)}
