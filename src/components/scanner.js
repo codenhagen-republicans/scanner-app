@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
 	},
 	camera: {
 		width: '100%',
-		height: 250,
+		aspectRatio: 4 / 3,
 	},
 });
