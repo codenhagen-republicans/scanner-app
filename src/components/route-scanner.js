@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { Subscribe } from 'unstated';
 import ProductsContainer from '../state/products';
 import Scanner from './scanner';
@@ -10,6 +10,7 @@ export default function RouteScanner() {
 		<Subscribe to={[ProductsContainer]}>
 			{products => (
 				<View style={styles.container}>
+					<StatusBar barStyle="light-content" />
 					<Scanner onBarCodeRead={products.barCodeRead} />
 					<ProductList
 						products={products.state.products}
