@@ -10,7 +10,7 @@ export default class Scanner extends React.Component {
 					style={styles.camera}
 					ratio="4:3"
 					onBarCodeRead={this.props.onBarCodeRead}
-                    flashMode={RNCamera.Constants.FlashMode.torch}
+                    flashMode={RNCamera.Constants.FlashMode.auto}
 				/>
 			</View>
 		);

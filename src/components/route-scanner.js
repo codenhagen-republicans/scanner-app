@@ -19,12 +19,14 @@ export default function RouteScanner() {
     						products={cart.state.products}
                             isEditable={true}
     						onRemove={cart.remove}
+                            onPlus={cart.add}
+                            onMinus={cart.remove}
     						onRetry={cart.retry}
                             onSave={products => {
                                 history.newCart(products);
                                 cart.clean();
                             }}
-                            onUnmount={history.store}
+                            onUnmount={cart.save}
     					/>
     				</View>
     			)}

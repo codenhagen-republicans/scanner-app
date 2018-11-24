@@ -16,7 +16,7 @@ export default function RouteCarts() {
                     <CartList
                         carts={carts.state.carts}
                         onRemove={carts.removeCart}
-                        onEdit={router.goToViewCart}
+                        onView={router.goToViewCart}
                         onMount={carts.load}
                     />
                     <Toolbar />

@@ -33,8 +33,8 @@ export default class CartList extends React.Component {
                 <View style={styles.cartActions}>
                     <NiceButton
                             style={styles.action}
-                            onPress={() => this.props.onEdit(item.products)}>
-                        Edit
+                            onPress={() => this.props.onView(item.products)}>
+                        View
                     </NiceButton>
                     <NiceButton
                             style={styles.action}

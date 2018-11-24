@@ -1,5 +1,9 @@
 import { Container } from 'unstated';
 import Config from 'react-native-config';
+import axios from 'axios';
+import throttle from 'lodash/throttle';
+
+import cart from '../utilities/cart';
 
 export const LOADING = 'PRODUCT_LOADING';
 export const FAILED = 'PRODUCT_FAILED';
@@ -16,24 +20,28 @@ export default class CartContainer extends Container {
 		products: [],
 	};
 
-	barCodeRead = barCode => {
+	barCodeRead = throttle(barCode => {
 		const { data: ean } = barCode;
 		this.fetch(ean);
-	};
+	}, 1000, {leading: true, trailing: false});
 
 	fetch = async ean => {
-		this.add({ key: ean, status: LOADING });
+		const added = this.add({ key: ean, status: LOADING });
+        if (added) {
+            return;
+        }
+
 		// await wait(300);
 		try {
 			// TODO: correct url
-			const response = await fetch(
-				`${Config.API_URL}/footprint?ean=${encodeURIComponent(ean)}`,
-				{
-					method: 'get',
-				}
-			);
-			var product = await response.json();
-            product = product.product;
+			const response = await axios.get(`${Config.API_URL}/footprint`, {
+                params: {
+                    ean: ean,
+                },
+            });
+
+			var product = await response;
+            product = product.data.product;
 
 			if (!product || product.length === 0) {
 				this.update(ean, {
@@ -47,6 +55,7 @@ export default class CartContainer extends Container {
 				name: (product.name && product.name.english) || 'No name',
 				footprint: product.footprint,
 				image: product.image,
+                quantity: 1,
 			});
 		} catch (e) {
 			this.update(ean, {
@@ -56,8 +65,14 @@ export default class CartContainer extends Container {
 	};
 
 	add = product => {
-		if (this.state.products.some(({ key }) => key === product.key)) {
-			return;
+        console.log(this.state.products);
+        const found = this.state.products
+                .filter(({ key }) => key === product.key)
+		if (found.length > 0) {
+            this.update(product.key, {
+                quantity: found[0].quantity + 1,
+            });
+            return true;
 		}
 
 		this.setState({
@@ -66,10 +81,16 @@ export default class CartContainer extends Container {
 	};
 
 	remove = productKey => {
+        const newProducts = this.state.products
+            .map(product => {
+                const newProduct = Object.assign({}, product);
+                newProduct.quantity -= 1;
+                return newProduct;
+            })
+            .filter(product => product.quantity > 0);
+
 		this.setState({
-			products: this.state.products.filter(
-				product => product.key !== productKey
-			),
+			products: newProducts,
 		});
 	};
 
@@ -95,18 +116,6 @@ export default class CartContainer extends Container {
             products: [],
         });
     };
-}
 
-// { name:
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    { swedish: 'Old El Paso original salsa 340g hot',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      finnish: 'Old El Paso original salsa 340g hot',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      english: 'Old El Paso original salsa 340g hot' },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   weight: 0.34,
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ingredients:
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    [ { name: 'tomat', weight: 0.18360000000000004, percentage: 54 },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'lök', weight: 0.054400000000000004, percentage: 16 },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'salt', weight: 0.00578, percentage: 1.7 } ],
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   segment: { finnish: 'Taco- ja salsakastikkeet', id: '4730' },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ean: '8410076400024',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   footprint: 0.16864000000000004 }
+    save = () => cart.upload(this.state.products);
+}
