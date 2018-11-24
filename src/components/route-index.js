@@ -32,6 +32,14 @@ export default class RouteIndex extends React.Component {
 						>
 							<Text style={styles.buttonText}>Start</Text>
 						</ListButton>
+						<ListButton
+							onPress={() => {
+								router.goToCarts();
+							}}
+							style={styles.button}
+						>
+							<Text style={styles.buttonText}>Carts</Text>
+						</ListButton>
 					</Animated.View>
 				)}
 			</Subscribe>

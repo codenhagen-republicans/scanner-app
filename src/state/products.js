@@ -23,7 +23,7 @@ export default class ProductsContainer extends Container {
 
 	fetch = async ean => {
 		this.add({ key: ean, status: LOADING });
-		await wait(300);
+		// await wait(300);
 		try {
 			// TODO: correct url
 			const response = await fetch(
@@ -34,7 +34,7 @@ export default class ProductsContainer extends Container {
 			);
 			const product = await response.json();
 
-			if (product.length === 0) {
+			if (product === null) {
 				this.update(ean, {
 					status: MISSING,
 				});
@@ -43,9 +43,9 @@ export default class ProductsContainer extends Container {
 
 			this.update(ean, {
 				status: LOADED,
-				title: product[0].title || 'No name',
-				footprint: product[0].footprint,
-				image: product[0].image,
+				title: product.title || 'No name',
+				footprint: product.footprint,
+				image: product.image,
 			});
 		} catch (e) {
 			this.update(ean, {
@@ -88,4 +88,9 @@ export default class ProductsContainer extends Container {
 		});
 		this.fetch(ean);
 	};
+
+    footPrint = () => this.state.products.reduce(
+        (sum, product) => sum + (product.footprint || 0),
+        0
+    );
 }

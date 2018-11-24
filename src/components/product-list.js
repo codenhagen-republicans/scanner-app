@@ -11,6 +11,7 @@ import ListButton from './list-button';
 import { LOADING, FAILED, MISSING } from '../state/products';
 import SumBar from './sum-bar';
 import CommitCartButton from './commit-cart-button';
+import round from '../utilities/round';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
@@ -20,11 +21,6 @@ export default class ProductList extends React.Component {
 		if (this.props.products.length === 0) {
 			return this.renderEmpty();
 		}
-
-		const sumFootprint = this.props.products.reduce(
-			(sum, product) => sum + product.footprint || 0,
-			0
-		);
 
 		return (
 			<>
@@ -36,7 +32,7 @@ export default class ProductList extends React.Component {
                 <View style={styles.centeredLine}>
                     <CommitCartButton>Save cart</CommitCartButton>
                 </View>
-				<SumBar sum={round(sumFootprint)} />
+				<SumBar sum={round(this.props.footPrint())} />
 			</>
 		);
 	}

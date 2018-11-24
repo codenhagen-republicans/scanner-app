@@ -16,6 +16,7 @@ export default function RouteScanner() {
 						products={products.state.products}
 						onRemove={products.remove}
 						onRetry={products.retry}
+                        footPrint={products.footPrint}
 					/>
 				</View>
 			)}
