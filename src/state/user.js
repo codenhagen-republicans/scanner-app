@@ -34,7 +34,7 @@ export default class UserContainer extends Container {
 		} catch (e) {
 			this.setState({
 				submitting: false,
-				errorMessage: 'Error 😱', // todo: get correct message
+				errorMessage: e.message,
 			});
 		}
 	};
@@ -62,7 +62,10 @@ export default class UserContainer extends Container {
 				refreshToken: body.refresh_token,
 			});
 		} catch (e) {
-			this.setState({ submitting: false, errorMessage: 'Error 😱' });
+			this.setState({
+				submitting: false,
+				errorMessage: e.message
+			});
 		}
 	};
 }
