@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native';
-import ListButton from './list-button';
+import NiceButton from './nice-button';
 
 export default class LoginForm extends React.Component {
 	state = {
@@ -25,7 +25,7 @@ export default class LoginForm extends React.Component {
 					onChangeText={this.handlePasswordInput}
 					style={styles.input}
 				/>
-				<ListButton>Log in</ListButton>
+				<NiceButton>Log in</NiceButton>
 				{this.props.errorMessage && <Text>{this.props.errorMessage}</Text>}
 			</View>
 		);

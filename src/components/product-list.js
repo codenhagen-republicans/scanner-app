@@ -7,10 +7,9 @@ import {
 	Image,
 	ActivityIndicator,
 } from 'react-native';
-import ListButton from './list-button';
 import { LOADING, FAILED, MISSING } from '../state/cart';
 import SumBar from './sum-bar';
-import CommitCartButton from './commit-cart-button';
+import NiceButton from './nice-button';
 import round from '../utilities/round';
 import cart from '../utilities/cart';
 
@@ -35,9 +34,9 @@ export default class ProductList extends React.Component {
 					renderItem={this.renderItem}
 				/>
                 <View style={styles.centeredLine}>
-                    <CommitCartButton onPress={() => this.props.onSave(this.props.products)}>
+                    <NiceButton onPress={() => this.props.onSave(this.props.products)}>
                         Save cart
-                    </CommitCartButton>
+                    </NiceButton>
                 </View>
 				<SumBar sum={round(cart.footprint(this.props.products))} />
 			</>
@@ -66,7 +65,7 @@ export default class ProductList extends React.Component {
 				<View style={styles.impact}>
 					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
-				<ListButton onPress={removeFn}>Remove</ListButton>
+				<NiceButton onPress={removeFn}>Remove</NiceButton>
 			</View>
 		);
 	};
@@ -93,10 +92,10 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Couldn’t load product information.</Text>
 				</View>
-				<ListButton onPress={retryFn} style={styles.retryButton}>
+				<NiceButton onPress={retryFn} style={styles.retryButton}>
 					Retry
-				</ListButton>
-				<ListButton onPress={removeFn}>Remove</ListButton>
+				</NiceButton>
+				<NiceButton onPress={removeFn}>Remove</NiceButton>
 			</View>
 		);
 	};
@@ -110,7 +109,7 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Product could not be found.</Text>
 				</View>
-				<ListButton onPress={removeFn}>OK</ListButton>
+				<NiceButton onPress={removeFn}>OK</NiceButton>
 			</View>
 		);
 	};

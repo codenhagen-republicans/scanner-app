@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, Animated, View } from 'react-native';
 import { Subscribe } from 'unstated';
 import RouterContainer from '../state/router';
-import ListButton from './list-button';
+import NiceButton from './nice-button';
 import Toolbar from './toolbar';
 
 export default class RouteIndex extends React.Component {
@@ -26,14 +26,14 @@ export default class RouteIndex extends React.Component {
 							style={[styles.container, { opacity: this.state.fadeAnim }]}
 						>
 							<Text style={styles.title}>Welcome!</Text>
-							<ListButton
+							<NiceButton
 								onPress={() => {
 									router.goToScanner();
 								}}
 								style={styles.button}
 							>
 								<Text style={styles.buttonText}>Start scanning</Text>
-							</ListButton>
+							</NiceButton>
 						</Animated.View>
 					)}
 				</Subscribe>
