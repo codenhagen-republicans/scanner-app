@@ -1,5 +1,8 @@
 import { Container } from 'unstated';
 import Config from 'react-native-config';
+import axios from 'axios';
+
+import cart from '../utilities/cart';
 
 export const LOADING = 'PRODUCT_LOADING';
 export const FAILED = 'PRODUCT_FAILED';
@@ -26,14 +29,14 @@ export default class CartContainer extends Container {
 		// await wait(300);
 		try {
 			// TODO: correct url
-			const response = await fetch(
-				`${Config.API_URL}/footprint?ean=${encodeURIComponent(ean)}`,
-				{
-					method: 'get',
-				}
-			);
-			var product = await response.json();
-            product = product.product;
+			const response = await axios.get(`${Config.API_URL}/footprint`, {
+                params: {
+                    ean: ean,
+                },
+            });
+
+			var product = await response;
+            product = product.data.product;
 
 			if (!product || product.length === 0) {
 				this.update(ean, {
@@ -95,18 +98,6 @@ export default class CartContainer extends Container {
             products: [],
         });
     };
-}
 
-// { name:
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    { swedish: 'Old El Paso original salsa 340g hot',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      finnish: 'Old El Paso original salsa 340g hot',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      english: 'Old El Paso original salsa 340g hot' },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   weight: 0.34,
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ingredients:
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    [ { name: 'tomat', weight: 0.18360000000000004, percentage: 54 },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'lök', weight: 0.054400000000000004, percentage: 16 },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'salt', weight: 0.00578, percentage: 1.7 } ],
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   segment: { finnish: 'Taco- ja salsakastikkeet', id: '4730' },
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ean: '8410076400024',
-// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   footprint: 0.16864000000000004 }
+    save = () => cart.upload(this.state.products);
+}

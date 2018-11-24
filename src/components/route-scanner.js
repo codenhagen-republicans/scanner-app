@@ -24,7 +24,7 @@ export default function RouteScanner() {
                                 history.newCart(products);
                                 cart.clean();
                             }}
-                            onUnmount={history.store}
+                            onUnmount={cart.save}
     					/>
     				</View>
     			)}

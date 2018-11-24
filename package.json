@@ -16,6 +16,7 @@
     "log": "react-native log-ios && react-native log-android"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "dateformat": "^3.0.3",
     "react": "16.6.1",
     "react-native": "0.57.5",

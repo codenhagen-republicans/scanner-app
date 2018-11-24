@@ -2,6 +2,8 @@ import { AsyncStorage } from 'react-native';
 import { Container } from 'unstated';
 import Config from 'react-native-config';
 
+import cartLib from '../utilities/cart';
+
 export default class CartHistoryContaner extends Container {
     state = {
         carts: [
@@ -78,14 +80,17 @@ export default class CartHistoryContaner extends Container {
     }
 
     store = async () => {
+        for (k in this.state.carts) {
+            var cart = this.state.carts[k];
+            await cartLib.upload(cart.products);
+        }
+
         try {
             await AsyncStorage.setItem(CartHistoryContaner.CART_KEY,
                 JSON.stringify(this.carts));
         } catch (error) {
             // Error saving data
         }
-    }
-
-
+    };
 }
 CartHistoryContaner.CART_KEY = '@ScannerApp:carts';
