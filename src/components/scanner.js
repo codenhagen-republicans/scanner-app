@@ -19,6 +19,8 @@ export default class Scanner extends React.Component {
 const styles = StyleSheet.create({
 	videoContainer: {
 		backgroundColor: '#000',
+        overflow: 'hidden',
+        // zIndex: 99999
 	},
 	camera: {
 		width: '100%',
