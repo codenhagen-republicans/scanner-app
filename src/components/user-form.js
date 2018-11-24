@@ -39,7 +39,7 @@ export default class UserForm extends React.Component {
 						this.passwordInput = el;
 					}}
 				/>
-				<NiceButton style={styles.submit}>Log in</NiceButton>
+				<NiceButton onPress={this.handleSubmit} style={styles.submit}>{this.props.submitText || 'Log in'}</NiceButton>
 				{this.props.submitting && (
 					<View style={styles.submitting}>
 						<ActivityIndicator

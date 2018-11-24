@@ -22,6 +22,7 @@ export default class RouteRegistration extends React.Component {
 									onSubmit={(username, password) => {
 										user.register(username, password);
 									}}
+									submitText='Register'
 									loadingText="Registering…"
 								/>
 							) : (

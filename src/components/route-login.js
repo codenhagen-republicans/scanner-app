@@ -23,6 +23,7 @@ export default class RouteLogin extends React.Component {
 										onSubmit={(username, password) => {
 											user.login(username, password);
 										}}
+										submitText='Log in'
 										loadingText="Logging in…"
 									/>
 								</>
