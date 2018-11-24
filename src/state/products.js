@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 export const LOADING = 'PRODUCT_LOADING';
 export const FAILED = 'PRODUCT_FAILED';
 export const LOADED = 'PRODUCT_LOADED';
+export const MISSING = 'PRODUCT_MISSING';
 
 const wait = ms =>
 	new Promise(resolve => {
@@ -32,6 +33,14 @@ export default class ProductsContainer extends Container {
 				}
 			);
 			const product = await response.json();
+
+			if (product.length === 0) {
+				this.update(ean, {
+					status: MISSING,
+				});
+				return;
+			}
+
 			this.update(ean, {
 				status: LOADED,
 				title: product.title,

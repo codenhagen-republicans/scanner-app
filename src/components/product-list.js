@@ -7,7 +7,7 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import ListButton from './list-button';
-import { LOADING, FAILED } from '../state/products';
+import { LOADING, FAILED, MISSING } from '../state/products';
 import SumBar from './sum-bar';
 
 export default class ProductList extends React.Component {
@@ -42,6 +42,8 @@ export default class ProductList extends React.Component {
 				return this.renderItemLoading();
 			case FAILED:
 				return this.renderItemFailed(item);
+			case MISSING:
+				return this.renderItemMissing(item);
 		}
 
 		const removeFn =
@@ -86,6 +88,20 @@ export default class ProductList extends React.Component {
 				<ListButton onPress={retryFn} style={styles.retryButton}>
 					Retry
 				</ListButton>
+				<ListButton onPress={removeFn}>Remove</ListButton>
+			</View>
+		);
+	};
+
+	renderItemMissing = item => {
+		const removeFn =
+			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
+
+		return (
+			<View style={styles.item}>
+				<View style={styles.label}>
+					<Text>Product could not be found.</Text>
+				</View>
 				<ListButton onPress={removeFn}>Remove</ListButton>
 			</View>
 		);
