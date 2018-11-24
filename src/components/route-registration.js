@@ -7,25 +7,23 @@ import Toolbar from './toolbar';
 import RouterContainer from '../state/router';
 import NiceButton from './nice-button';
 
-export default class RouteLogin extends React.Component {
+export default class RouteRegistration extends React.Component {
 	render() {
 		return (
 			<>
 				<Subscribe to={[UserContainer, RouterContainer]}>
 					{(user, router) => (
 						<KeyboardAvoidingView style={styles.container} behaviour="padding">
+							<Text style={styles.title}>Register</Text>
 							{!user.state.username ? (
-								<>
-									<Text style={styles.title}>Log in</Text>
-									<UserForm
-										submitting={user.state.submitting}
-										errorMessage={user.state.errorMessage}
-										onSubmit={(username, password) => {
-											user.login(username, password);
-										}}
-										loadingText="Logging in…"
-									/>
-								</>
+								<UserForm
+									submitting={user.state.submitting}
+									errorMessage={user.state.errorMessage}
+									onSubmit={(username, password) => {
+										user.register(username, password);
+									}}
+									loadingText="Registering…"
+								/>
 							) : (
 								<>
 									<Text style={styles.title}>Hello {user.state.username}!</Text>
