@@ -4,6 +4,7 @@ import {
 	FlatList,
 	View,
 	Text,
+	Image,
 	ActivityIndicator,
 } from 'react-native';
 import ListButton from './list-button';
@@ -52,7 +53,7 @@ export default class ProductList extends React.Component {
 
 		return (
 			<View style={styles.item}>
-				<View style={styles.imagePlaceholder} />
+				<Image source={{ uri: item.image }} style={styles.image} />
 				<View style={styles.label}>
 					<Text style={styles.labelText}>{item.title}</Text>
 				</View>
@@ -135,10 +136,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: '#ddd',
 	},
-	imagePlaceholder: {
+	image: {
 		width: 64,
 		height: 64,
-		backgroundColor: '#000',
+		backgroundColor: '#eee',
 		marginRight: 12,
 	},
 	label: {
