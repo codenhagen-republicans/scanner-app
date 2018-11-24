@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider, Subscribe } from 'unstated';
 import RouterContainer, { INDEX, SCANNER, LOGIN } from './state/router';
+import PersistRouterState from './components/persist-router-state';
 import RouteIndex from './components/route-index';
 import RouteScanner from './components/route-scanner';
 import RouteLogin from './components/route-login';
@@ -12,16 +13,27 @@ export default class App extends React.Component {
 			<Provider>
 				<Subscribe to={[RouterContainer]}>
 					{router => {
+						let route;
 						switch (router.state.view) {
 							case INDEX:
-								return <RouteIndex />;
+								route = <RouteIndex />;
+								break;
 							case SCANNER:
-								return <RouteScanner />;
+								route = <RouteScanner />;
+								break;
 							case LOGIN:
-								return <RouteLogin />;
+								route = <RouteLogin />;
+								break;
 							default:
-								return <RouteNotFound />;
+								route = <RouteNotFound />;
 						}
+
+						return (
+							<>
+								<PersistRouterState go={router.go} route={router.state.view} />
+								{route}
+							</>
+						);
 					}}
 				</Subscribe>
 			</Provider>
