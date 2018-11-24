@@ -2,9 +2,16 @@ import React from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import format from 'dateformat';
 
+import NiceButton from './nice-button';
+import Toolbar from './toolbar';
 import round from '../utilities/round';
+import cart from '../utilities/cart';
 
 export default class CartList extends React.Component {
+    componentWillMount() {
+        this.props.onMount();
+    }
+
     renderEmpty() {
         return (
             <View style={styles.emptyList}>
@@ -16,12 +23,24 @@ export default class CartList extends React.Component {
     }
 
     renderItem = ({ item }) => {
-        var date = format(item.date, 'dd-mm-yyyy');
+        var date = format(item.created_at, 'dd-mm-yyyy');
         return (
             <View style={styles.cart}>
                 <View style={styles.cartSummary}>
-                    <Text style={styles.cartDate}>{ date }</Text>
-                    <Text>{round(item.footprint())} kg CO₂</Text>
+                    <Text style={styles.cartDate}>Date: { date }</Text>
+                    <Text>Footprint: {round(cart.footprint(item.products))} kg CO₂</Text>
+                </View>
+                <View style={styles.cartActions}>
+                    <NiceButton
+                            style={styles.action}
+                            onPress={() => this.props.onEdit(item.products)}>
+                        Edit
+                    </NiceButton>
+                    <NiceButton
+                            style={styles.action}
+                            onPress={() => this.props.onRemove(parseInt(item.key))}>
+                        Remove
+                    </NiceButton>
                 </View>
             </View>
         );
@@ -32,13 +51,13 @@ export default class CartList extends React.Component {
             return this.renderEmpty();
         }
 
-        return (<>
-        	<FlatList
-        		data={this.props.carts}
-        		style={styles.list}
-				renderItem={this.renderItem}
-        	/>
-		</>);
+        return (
+            <FlatList
+            	data={this.props.carts}
+            	style={styles.list}
+    			renderItem={this.renderItem}
+            />
+        );
     }
 }
 
@@ -48,6 +67,8 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         paddingBottom: 32,
+        flex: 1,
+        justifyContent: 'center',
     },
     emptyListText: {
         fontSize: 18,
@@ -62,6 +83,13 @@ const styles = StyleSheet.create({
         flexWrap: 'nowrap',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingTop: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingBottom: 10,
+        minHeight: 64,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
     },
     cartSummary: {
         flexDirection: 'column',
@@ -69,7 +97,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'flex-start',
     },
-    cartDate: {
-
+    cartActions: {
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        justifyContent: 'space-evenly',
+        alignItems: 'stretch',
+    },
+    action: {
+        margin: 2,
     }
 });

@@ -3,21 +3,25 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { Subscribe } from 'unstated';
 
 import CartHistoryContaner from '../state/cart-history';
+import RouterContainer from '../state/router';
 import CartList from './cart-list';
+import Toolbar from './toolbar';
 
 export default function RouteCarts() {
     return (
-        <Subscribe to={[CartHistoryContaner]}>
-            {carts => (
-                <View style={styles.container}>
+        <Subscribe to={[CartHistoryContaner, RouterContainer]}>
+            {(carts, router) => {
+                return (<View style={styles.container}>
 					<StatusBar barStyle="light-content" />
                     <CartList
                         carts={carts.state.carts}
-                        onAdd={carts.addCart}
                         onRemove={carts.removeCart}
+                        onEdit={router.goToViewCart}
+                        onMount={carts.load}
                     />
-                </View>
-            )}
+                    <Toolbar />
+                </View>);
+            }}
         </Subscribe>
     );
 }

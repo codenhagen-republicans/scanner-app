@@ -8,27 +8,24 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import ListButton from './list-button';
-import { LOADING, FAILED, MISSING } from '../state/products';
+import { LOADING, FAILED, MISSING } from '../state/cart';
 import SumBar from './sum-bar';
 import CommitCartButton from './commit-cart-button';
 import round from '../utilities/round';
+import cart from '../utilities/cart';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
 	retryFns = [];
 
+    componentWillUnmount() {
+        this.props.onUnmount();
+    }
+
 	render() {
 		if (this.props.products.length === 0) {
 			return this.renderEmpty();
 		}
-
-        console.log(this.props.carts)
-        var commitCartFn = () => {
-            this.props.goToIndex();
-
-            // this.props.carts.addCart.bind(
-            // this.props.carts, this.props.products);
-        };
 
 		return (
 			<>
@@ -38,11 +35,11 @@ export default class ProductList extends React.Component {
 					renderItem={this.renderItem}
 				/>
                 <View style={styles.centeredLine}>
-                    <CommitCartButton onPress={commitCartFn}>
+                    <CommitCartButton onPress={() => this.props.onSave(this.props.products)}>
                         Save cart
                     </CommitCartButton>
                 </View>
-				<SumBar sum={round(this.props.footPrint())} />
+				<SumBar sum={round(cart.footprint(this.props.products))} />
 			</>
 		);
 	}
