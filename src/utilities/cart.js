@@ -17,7 +17,7 @@ const upload = async products => {
     });
 
     try {
-        const response = await axios.post(`${Config.BACKEND_URL}/baskets`, {
+        const response = await axios.post(`${Config.APP_BACKEND_URL}/baskets`, {
             items: backend_products,
         });
 
