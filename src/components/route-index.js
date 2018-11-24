@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import { StyleSheet, Text, Animated, View } from 'react-native';
 import { Subscribe } from 'unstated';
 import RouterContainer from '../state/router';
 import ListButton from './list-button';
+import Toolbar from './toolbar';
 
 export default class RouteIndex extends React.Component {
 	state = {
@@ -18,31 +19,26 @@ export default class RouteIndex extends React.Component {
 
 	render() {
 		return (
-			<Subscribe to={[RouterContainer]}>
-				{router => (
-					<Animated.View
-						style={[styles.container, { opacity: this.state.fadeAnim }]}
-					>
-						<Text style={styles.title}>Welcome!</Text>
-						<ListButton
-							onPress={() => {
-								router.goToScanner();
-							}}
-							style={styles.button}
+			<>
+				<Subscribe to={[RouterContainer]}>
+					{router => (
+						<Animated.View
+							style={[styles.container, { opacity: this.state.fadeAnim }]}
 						>
-							<Text style={styles.buttonText}>Start</Text>
-						</ListButton>
-						<ListButton
-							onPress={() => {
-								router.goToCarts();
-							}}
-							style={styles.button}
-						>
-							<Text style={styles.buttonText}>Carts</Text>
-						</ListButton>
-					</Animated.View>
-				)}
-			</Subscribe>
+							<Text style={styles.title}>Welcome!</Text>
+							<ListButton
+								onPress={() => {
+									router.goToScanner();
+								}}
+								style={styles.button}
+							>
+								<Text style={styles.buttonText}>Start scanning</Text>
+							</ListButton>
+						</Animated.View>
+					)}
+				</Subscribe>
+				<Toolbar />
+			</>
 		);
 	}
 }
@@ -64,5 +60,8 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		fontSize: 20,
+	},
+	login: {
+		marginTop: 40,
 	},
 });

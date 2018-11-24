@@ -18,13 +18,13 @@ export default function SumBar({ sum, unit = 'kg CO₂' }) {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#000',
+		backgroundColor: '#222',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		paddingTop: 20,
+		paddingTop: 15,
 		paddingLeft: 20,
 		paddingRight: 20,
-		paddingBottom: 24,
+		paddingBottom: 16,
 	},
 	text: {
 		color: '#fff',

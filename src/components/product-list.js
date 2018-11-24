@@ -64,7 +64,7 @@ export default class ProductList extends React.Component {
 			<View style={styles.item}>
 				<Image source={{ uri: item.image }} style={styles.image} />
 				<View style={styles.label}>
-					<Text style={styles.labelText}>{item.title}</Text>
+					<Text style={styles.labelText}>{item.name}</Text>
 				</View>
 				<View style={styles.impact}>
 					<Text>{round(item.footprint)} kg CO₂</Text>
@@ -113,7 +113,7 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Product could not be found.</Text>
 				</View>
-				<ListButton onPress={removeFn}>Remove</ListButton>
+				<ListButton onPress={removeFn}>OK</ListButton>
 			</View>
 		);
 	};
