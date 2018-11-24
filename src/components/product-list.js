@@ -18,7 +18,9 @@ export default class ProductList extends React.Component {
 	retryFns = [];
 
     componentWillUnmount() {
-        this.props.onUnmount();
+        if (this.props.isEditable) {
+            this.props.onUnmount();
+        }
     }
 
 	render() {
@@ -33,11 +35,13 @@ export default class ProductList extends React.Component {
 					style={styles.list}
 					renderItem={this.renderItem}
 				/>
-                <View style={styles.centeredLine}>
-                    <NiceButton onPress={() => this.props.onSave(this.props.products)}>
-                        Save cart
-                    </NiceButton>
-                </View>
+                { this.props.isEditable
+                    ? (<View style={styles.centeredLine}>
+                            <NiceButton onPress={() => this.props.onSave(this.props.products)}>
+                                Save cart
+                            </NiceButton>
+                        </View>)
+                    : <></>}
 				<SumBar sum={round(cart.footprint(this.props.products))} />
 			</>
 		);
@@ -65,7 +69,9 @@ export default class ProductList extends React.Component {
 				<View style={styles.impact}>
 					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
-				<NiceButton onPress={removeFn}>Remove</NiceButton>
+				{ this.props.isEditable
+                        ? (<NiceButton onPress={removeFn}>Remove</NiceButton>)
+                        : <></>}
 			</View>
 		);
 	};
@@ -92,10 +98,14 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Couldn’t load product information.</Text>
 				</View>
-				<NiceButton onPress={retryFn} style={styles.retryButton}>
-					Retry
-				</NiceButton>
-				<NiceButton onPress={removeFn}>Remove</NiceButton>
+                { this.props.isEditable
+                    	? (<>
+                                <NiceButton onPress={retryFn} style={styles.retryButton}>
+                                    Retry
+                                </NiceButton>
+				                <NiceButton onPress={removeFn}>Remove</NiceButton>
+                            </>)
+                       : <></>}
 			</View>
 		);
 	};
@@ -109,7 +119,9 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Product could not be found.</Text>
 				</View>
-				<NiceButton onPress={removeFn}>OK</NiceButton>
+				{ this.props.isEditable
+                    ? (<NiceButton onPress={removeFn}>OK</NiceButton>)
+                    : <></>}
 			</View>
 		);
 	};

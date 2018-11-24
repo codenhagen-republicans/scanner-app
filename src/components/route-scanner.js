@@ -17,6 +17,7 @@ export default function RouteScanner() {
     					<Scanner onBarCodeRead={cart.barCodeRead} />
     					<ProductList
     						products={cart.state.products}
+                            isEditable={true}
     						onRemove={cart.remove}
     						onRetry={cart.retry}
                             onSave={products => {
