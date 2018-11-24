@@ -34,7 +34,7 @@ export default class ProductsContainer extends Container {
 			);
 			const product = await response.json();
 
-			if (product.length === 0) {
+			if (!product || product.length === 0) {
 				this.update(ean, {
 					status: MISSING,
 				});
@@ -43,9 +43,9 @@ export default class ProductsContainer extends Container {
 
 			this.update(ean, {
 				status: LOADED,
-				title: product[0].title || 'No name',
-				footprint: product[0].footprint,
-				image: product[0].image,
+				name: (product.name && product.name.english) || 'No name',
+				footprint: product.footprint,
+				image: product.image,
 			});
 		} catch (e) {
 			this.update(ean, {
