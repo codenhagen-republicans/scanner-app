@@ -4,6 +4,7 @@ import { Subscribe } from 'unstated';
 import RouterContainer from '../state/router';
 import ListButton from './list-button';
 import Toolbar from './toolbar';
+import UserContainer from '../state/user';
 
 export default class RouteIndex extends React.Component {
 	state = {
@@ -20,8 +21,8 @@ export default class RouteIndex extends React.Component {
 	render() {
 		return (
 			<>
-				<Subscribe to={[RouterContainer]}>
-					{router => (
+				<Subscribe to={[RouterContainer, UserContainer]}>
+					{(router, user) => (
 						<Animated.View
 							style={[styles.container, { opacity: this.state.fadeAnim }]}
 						>
@@ -34,6 +35,9 @@ export default class RouteIndex extends React.Component {
 							>
 								<Text style={styles.buttonText}>Start scanning</Text>
 							</ListButton>
+							{user.state.username && (
+								<Text>Logged in as {user.state.username}</Text>
+							)}
 						</Animated.View>
 					)}
 				</Subscribe>
