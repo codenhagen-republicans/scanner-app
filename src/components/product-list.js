@@ -9,6 +9,7 @@ import {
 import ListButton from './list-button';
 import { LOADING, FAILED, MISSING } from '../state/products';
 import SumBar from './sum-bar';
+import round from '../utilities/round';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
@@ -19,8 +20,8 @@ export default class ProductList extends React.Component {
 			return this.renderEmpty();
 		}
 
-		const sumCo2 = this.props.products.reduce(
-			(sum, product) => sum + product.co2 || 0,
+		const sumFootprint = this.props.products.reduce(
+			(sum, product) => sum + product.footprint || 0,
 			0
 		);
 
@@ -31,7 +32,7 @@ export default class ProductList extends React.Component {
 					style={styles.list}
 					renderItem={this.renderItem}
 				/>
-				<SumBar sum={sumCo2} />
+				<SumBar sum={round(sumFootprint)} />
 			</>
 		);
 	}
@@ -56,7 +57,7 @@ export default class ProductList extends React.Component {
 					<Text style={styles.labelText}>{item.title}</Text>
 				</View>
 				<View style={styles.impact}>
-					<Text>{item.co2} kg CO₂</Text>
+					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
 				<ListButton onPress={removeFn}>Remove</ListButton>
 			</View>

@@ -43,9 +43,9 @@ export default class ProductsContainer extends Container {
 
 			this.update(ean, {
 				status: LOADED,
-				title: product.title,
-				co2: product.co2,
-				image: product.image,
+				title: product[0].title || 'No name',
+				footprint: product[0].footprint,
+				image: product[0].image,
 			});
 		} catch (e) {
 			this.update(ean, {
