@@ -22,6 +22,14 @@ export default class ProductList extends React.Component {
 			return this.renderEmpty();
 		}
 
+        console.log(this.props.carts)
+        var commitCartFn = () => {
+            this.props.goToIndex();
+
+            // this.props.carts.addCart.bind(
+            // this.props.carts, this.props.products);
+        };
+
 		return (
 			<>
 				<FlatList
@@ -30,7 +38,9 @@ export default class ProductList extends React.Component {
 					renderItem={this.renderItem}
 				/>
                 <View style={styles.centeredLine}>
-                    <CommitCartButton>Save cart</CommitCartButton>
+                    <CommitCartButton onPress={commitCartFn}>
+                        Save cart
+                    </CommitCartButton>
                 </View>
 				<SumBar sum={round(this.props.footPrint())} />
 			</>
