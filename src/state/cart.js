@@ -1,6 +1,7 @@
 import { Container } from 'unstated';
 import Config from 'react-native-config';
 import axios from 'axios';
+import throttle from 'lodash/throttle';
 
 import cart from '../utilities/cart';
 
@@ -19,13 +20,17 @@ export default class CartContainer extends Container {
 		products: [],
 	};
 
-	barCodeRead = barCode => {
+	barCodeRead = throttle(barCode => {
 		const { data: ean } = barCode;
 		this.fetch(ean);
-	};
+	}, 1000, {leading: true, trailing: false});
 
 	fetch = async ean => {
-		this.add({ key: ean, status: LOADING });
+		const added = this.add({ key: ean, status: LOADING });
+        if (added) {
+            return;
+        }
+
 		// await wait(300);
 		try {
 			// TODO: correct url
@@ -50,6 +55,7 @@ export default class CartContainer extends Container {
 				name: (product.name && product.name.english) || 'No name',
 				footprint: product.footprint,
 				image: product.image,
+                quantity: 1,
 			});
 		} catch (e) {
 			this.update(ean, {
@@ -59,8 +65,14 @@ export default class CartContainer extends Container {
 	};
 
 	add = product => {
-		if (this.state.products.some(({ key }) => key === product.key)) {
-			return;
+        console.log(this.state.products);
+        const found = this.state.products
+                .filter(({ key }) => key === product.key)
+		if (found.length > 0) {
+            this.update(product.key, {
+                quantity: found[0].quantity + 1,
+            });
+            return true;
 		}
 
 		this.setState({
@@ -69,10 +81,16 @@ export default class CartContainer extends Container {
 	};
 
 	remove = productKey => {
+        const newProducts = this.state.products
+            .map(product => {
+                const newProduct = Object.assign({}, product);
+                newProduct.quantity -= 1;
+                return newProduct;
+            })
+            .filter(product => product.quantity > 0);
+
 		this.setState({
-			products: this.state.products.filter(
-				product => product.key !== productKey
-			),
+			products: newProducts,
 		});
 	};
 

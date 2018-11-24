@@ -15,6 +15,7 @@ import cart from '../utilities/cart';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
+	addFns = [];
 	retryFns = [];
 
     componentWillUnmount() {
@@ -58,7 +59,9 @@ export default class ProductList extends React.Component {
 		}
 
 		const removeFn =
-			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
+			this.removeFns[item.key] || (() => this.props.onMinus(item.key));
+		const addFn =
+			this.addFns[item.key] || (() => this.props.onPlus(item));
 
 		return (
 			<View style={styles.item}>
@@ -69,9 +72,15 @@ export default class ProductList extends React.Component {
 				<View style={styles.impact}>
 					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
-				{ this.props.isEditable
-                        ? (<NiceButton onPress={removeFn}>Remove</NiceButton>)
-                        : <></>}
+                <View style={styles.quantity}>
+    				{ this.props.isEditable
+                            ? (<NiceButton onPress={addFn}>+</NiceButton>)
+                            : <></>}
+                    <Text>{ item.quantity }</Text>
+    				{ this.props.isEditable
+                            ? (<NiceButton onPress={removeFn}>-</NiceButton>)
+                            : <></>}
+                </View>
 			</View>
 		);
 	};
@@ -193,5 +202,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 5,
+    },
+    quantity: {
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
     }
 });
