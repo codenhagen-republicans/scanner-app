@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function ListButton({ children, style, ...props }) {
+export default function NiceButton({ children, style, ...props }) {
 	return (
 		<TouchableOpacity
 			style={[styles.button, style]}

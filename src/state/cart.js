@@ -11,7 +11,7 @@ const wait = ms =>
 		setTimeout(resolve, ms);
 	});
 
-export default class ProductsContainer extends Container {
+export default class CartContainer extends Container {
 	state = {
 		products: [],
 	};
@@ -23,7 +23,7 @@ export default class ProductsContainer extends Container {
 
 	fetch = async ean => {
 		this.add({ key: ean, status: LOADING });
-		await wait(300);
+		// await wait(300);
 		try {
 			// TODO: correct url
 			const response = await fetch(
@@ -32,7 +32,8 @@ export default class ProductsContainer extends Container {
 					method: 'get',
 				}
 			);
-			const product = await response.json();
+			var product = await response.json();
+            product = product.product;
 
 			if (!product || product.length === 0) {
 				this.update(ean, {
@@ -88,4 +89,24 @@ export default class ProductsContainer extends Container {
 		});
 		this.fetch(ean);
 	};
+
+    clean = () => {
+        this.setState({
+            products: [],
+        });
+    };
 }
+
+// { name:
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    { swedish: 'Old El Paso original salsa 340g hot',
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      finnish: 'Old El Paso original salsa 340g hot',
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      english: 'Old El Paso original salsa 340g hot' },
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024',
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   weight: 0.34,
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ingredients:
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:    [ { name: 'tomat', weight: 0.18360000000000004, percentage: 54 },
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'lök', weight: 0.054400000000000004, percentage: 16 },
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:      { name: 'salt', weight: 0.00578, percentage: 1.7 } ],
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   segment: { finnish: 'Taco- ja salsakastikkeet', id: '4730' },
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   ean: '8410076400024',
+// 11-24 20:08:31.589 22648 23132 I ReactNativeJS:   footprint: 0.16864000000000004 }

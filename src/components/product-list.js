@@ -7,24 +7,26 @@ import {
 	Image,
 	ActivityIndicator,
 } from 'react-native';
-import ListButton from './list-button';
-import { LOADING, FAILED, MISSING } from '../state/products';
+import { LOADING, FAILED, MISSING } from '../state/cart';
 import SumBar from './sum-bar';
+import NiceButton from './nice-button';
 import round from '../utilities/round';
+import cart from '../utilities/cart';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
 	retryFns = [];
 
+    componentWillUnmount() {
+        if (this.props.isEditable) {
+            this.props.onUnmount();
+        }
+    }
+
 	render() {
 		if (this.props.products.length === 0) {
 			return this.renderEmpty();
 		}
-
-		const sumFootprint = this.props.products.reduce(
-			(sum, product) => sum + product.footprint || 0,
-			0
-		);
 
 		return (
 			<>
@@ -33,7 +35,14 @@ export default class ProductList extends React.Component {
 					style={styles.list}
 					renderItem={this.renderItem}
 				/>
-				<SumBar sum={round(sumFootprint)} />
+                { this.props.isEditable
+                    ? (<View style={styles.centeredLine}>
+                            <NiceButton onPress={() => this.props.onSave(this.props.products)}>
+                                Save cart
+                            </NiceButton>
+                        </View>)
+                    : <></>}
+				<SumBar sum={round(cart.footprint(this.props.products))} />
 			</>
 		);
 	}
@@ -60,7 +69,9 @@ export default class ProductList extends React.Component {
 				<View style={styles.impact}>
 					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
-				<ListButton onPress={removeFn}>Remove</ListButton>
+				{ this.props.isEditable
+                        ? (<NiceButton onPress={removeFn}>Remove</NiceButton>)
+                        : <></>}
 			</View>
 		);
 	};
@@ -87,10 +98,14 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Couldn’t load product information.</Text>
 				</View>
-				<ListButton onPress={retryFn} style={styles.retryButton}>
-					Retry
-				</ListButton>
-				<ListButton onPress={removeFn}>Remove</ListButton>
+                { this.props.isEditable
+                    	? (<>
+                                <NiceButton onPress={retryFn} style={styles.retryButton}>
+                                    Retry
+                                </NiceButton>
+				                <NiceButton onPress={removeFn}>Remove</NiceButton>
+                            </>)
+                       : <></>}
 			</View>
 		);
 	};
@@ -104,7 +119,9 @@ export default class ProductList extends React.Component {
 				<View style={styles.label}>
 					<Text>Product could not be found.</Text>
 				</View>
-				<ListButton onPress={removeFn}>OK</ListButton>
+				{ this.props.isEditable
+                    ? (<NiceButton onPress={removeFn}>OK</NiceButton>)
+                    : <></>}
 			</View>
 		);
 	};
@@ -170,4 +187,11 @@ const styles = StyleSheet.create({
 	retryButton: {
 		marginRight: 8,
 	},
+    centeredLine: {
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+    }
 });

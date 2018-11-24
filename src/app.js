@@ -1,10 +1,17 @@
 import React from 'react';
 import { Provider, Subscribe } from 'unstated';
-import RouterContainer, { INDEX, SCANNER, LOGIN } from './state/router';
-import PersistRouterState from './components/persist-router-state';
+import RouterContainer, {
+	CARTS,
+	INDEX,
+	LOGIN,
+	SCANNER,
+	VIEW_CART,
+} from './state/router';
+import RouteCarts from './components/route-carts';
 import RouteIndex from './components/route-index';
-import RouteScanner from './components/route-scanner';
 import RouteLogin from './components/route-login';
+import RouteScanner from './components/route-scanner';
+import RouteViewCart from './components/route-view-cart';
 import RouteNotFound from './components/route-not-found';
 
 export default class App extends React.Component {
@@ -15,15 +22,16 @@ export default class App extends React.Component {
 					{router => {
 						let route;
 						switch (router.state.view) {
+							case CARTS:
+								return <RouteCarts />;
 							case INDEX:
-								route = <RouteIndex />;
-								break;
-							case SCANNER:
-								route = <RouteScanner />;
-								break;
+								return <RouteIndex />;
 							case LOGIN:
-								route = <RouteLogin />;
-								break;
+								return <RouteLogin />;
+							case SCANNER:
+								return <RouteScanner />;
+							case VIEW_CART:
+								return <RouteViewCart cart={router.state.currentCart} />;
 							default:
 								route = <RouteNotFound />;
 						}

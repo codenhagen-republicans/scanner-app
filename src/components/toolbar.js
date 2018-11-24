@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Subscribe } from 'unstated';
-import RouterContainer, { SCANNER, LOGIN } from '../state/router';
+import RouterContainer, { CART, LOGIN, SCANNER } from '../state/router';
 
 export default function Toolbar() {
 	return (
@@ -18,9 +18,10 @@ export default function Toolbar() {
 						<Text style={styles.text}>Scan</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
+                        onPress={router.goToCarts}
 						style={[
 							styles.button,
-							router.state.view === 'TODO_FIX' && styles.buttonCurrent,
+							router.state.view === CART && styles.buttonCurrent,
 						]}
 					>
 						<Text style={styles.text}>Carts</Text>
