@@ -4,10 +4,11 @@ import {
 	FlatList,
 	View,
 	Text,
+	Image,
 	ActivityIndicator,
 } from 'react-native';
 import ListButton from './list-button';
-import { LOADING, FAILED } from '../state/products';
+import { LOADING, FAILED, MISSING } from '../state/products';
 import SumBar from './sum-bar';
 import CommitCartButton from './commit-cart-button';
 
@@ -20,8 +21,8 @@ export default class ProductList extends React.Component {
 			return this.renderEmpty();
 		}
 
-		const sumCo2 = this.props.products.reduce(
-			(sum, product) => sum + product.co2 || 0,
+		const sumFootprint = this.props.products.reduce(
+			(sum, product) => sum + product.footprint || 0,
 			0
 		);
 
@@ -35,7 +36,7 @@ export default class ProductList extends React.Component {
                 <View style={styles.centeredLine}>
                     <CommitCartButton>Save cart</CommitCartButton>
                 </View>
-				<SumBar sum={sumCo2} />
+				<SumBar sum={round(sumFootprint)} />
 			</>
 		);
 	}
@@ -46,6 +47,8 @@ export default class ProductList extends React.Component {
 				return this.renderItemLoading();
 			case FAILED:
 				return this.renderItemFailed(item);
+			case MISSING:
+				return this.renderItemMissing(item);
 		}
 
 		const removeFn =
@@ -53,12 +56,12 @@ export default class ProductList extends React.Component {
 
 		return (
 			<View style={styles.item}>
-				<View style={styles.imagePlaceholder} />
+				<Image source={{ uri: item.image }} style={styles.image} />
 				<View style={styles.label}>
 					<Text style={styles.labelText}>{item.title}</Text>
 				</View>
 				<View style={styles.impact}>
-					<Text>{item.co2} kg CO₂</Text>
+					<Text>{round(item.footprint)} kg CO₂</Text>
 				</View>
 				<ListButton onPress={removeFn}>Remove</ListButton>
 			</View>
@@ -95,6 +98,20 @@ export default class ProductList extends React.Component {
 		);
 	};
 
+	renderItemMissing = item => {
+		const removeFn =
+			this.removeFns[item.key] || (() => this.props.onRemove(item.key));
+
+		return (
+			<View style={styles.item}>
+				<View style={styles.label}>
+					<Text>Product could not be found.</Text>
+				</View>
+				<ListButton onPress={removeFn}>Remove</ListButton>
+			</View>
+		);
+	};
+
 	renderEmpty = () => {
 		return (
 			<View style={styles.emptyList}>
@@ -122,10 +139,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: '#ddd',
 	},
-	imagePlaceholder: {
+	image: {
 		width: 64,
 		height: 64,
-		backgroundColor: '#000',
+		backgroundColor: '#eee',
 		marginRight: 12,
 	},
 	label: {
