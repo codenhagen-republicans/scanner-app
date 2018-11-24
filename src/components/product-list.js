@@ -9,6 +9,7 @@ import {
 import ListButton from './list-button';
 import { LOADING, FAILED } from '../state/products';
 import SumBar from './sum-bar';
+import CommitCartButton from './commit-cart-button';
 
 export default class ProductList extends React.Component {
 	removeFns = [];
@@ -31,6 +32,9 @@ export default class ProductList extends React.Component {
 					style={styles.list}
 					renderItem={this.renderItem}
 				/>
+                <View style={styles.centeredLine}>
+                    <CommitCartButton>Save cart</CommitCartButton>
+                </View>
 				<SumBar sum={sumCo2} />
 			</>
 		);
@@ -152,4 +156,11 @@ const styles = StyleSheet.create({
 	retryButton: {
 		marginRight: 8,
 	},
+    centeredLine: {
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+    }
 });
