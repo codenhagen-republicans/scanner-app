@@ -10,7 +10,6 @@ import RouterContainer, {
 import UserContainer from './state/user';
 import PersistUserState from './components/persist-user-state';
 import PersistRouterState from './components/persist-router-state';
-import RouteCarts from './components/route-carts';
 import RouteIndex from './components/route-index';
 import RouteAccount from './components/route-account';
 import RouteScanner from './components/route-scanner';
