@@ -26,7 +26,27 @@ const upload = async (axios, products) => {
     }
 }
 
+const download = async axios => {
+    const response = await axios.get('baskets');
+    return response.data.carts.map(cart => {
+        return {
+            key: cart.id.toString(),
+            created_at: new Date(),
+            products: cart.items.map(product => {
+                return {
+                    key: product.ean,
+                    name: product.name,
+                    quantity: product.quantity,
+                    footprint: product.carbon_footprint,
+                    status: 'PRODUCT_LOADED',
+                };
+            }),
+        };
+    });
+};
+
 export default {
     footprint,
-    upload
+    download,
+    upload,
 };
