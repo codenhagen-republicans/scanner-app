@@ -17,11 +17,6 @@ export default class UserForm extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				{!this.props.submitting && this.props.errorMessage && (
-					<View style={styles.errorMessage}>
-						<Text>{this.props.errorMessage}</Text>
-					</View>
-				)}
 				<Text style={styles.label}>Username</Text>
 				<TextInput
 					returnKeyType={'next'}
@@ -55,6 +50,11 @@ export default class UserForm extends React.Component {
 						<Text>{this.props.loadingText || 'Logging in…'}</Text>
 					</View>
 				)}
+				{!this.props.submitting && this.props.errorMessage && (
+					<View style={styles.errorMessage}>
+						<Text>{this.props.errorMessage}</Text>
+					</View>
+				)}
 			</View>
 		);
 	}
@@ -74,7 +74,6 @@ export default class UserForm extends React.Component {
 	};
 
 	handleSubmit = () => {
-		// todo should submit
 		if (this.props.submitting) {
 			return;
 		}

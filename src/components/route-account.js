@@ -56,7 +56,7 @@ export default class RouteAccount extends React.Component {
 								this.setState({ page: REGISTER });
 							}}
 						>
-							<Text>or register</Text>
+							<Text>Don't have an account yet? Register</Text>
 						</TouchableOpacity>
 					</View>
 				</>
@@ -79,7 +79,7 @@ export default class RouteAccount extends React.Component {
 								this.setState({ page: LOGIN });
 							}}
 						>
-							<Text>or log in</Text>
+							<Text>Already have an account? Log in</Text>
 						</TouchableOpacity>
 					</View>
 				</>
@@ -118,7 +118,10 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 	switchPage: {
-		marginTop: 20,
+		marginTop: 30,
+		paddingTop: 10,
 		width: 260,
-	}
+		borderTopWidth: 1,
+		borderTopColor: '#eee',
+	},
 });
