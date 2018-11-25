@@ -83,17 +83,21 @@ export default class ProductList extends React.Component {
 								: <></>}
 					</View>
 				</View>
-				<Text style={styles.recommendedLabel}>Recommended</Text>
-				<View style={styles.item}>
-					<Image source={{ uri: item.recommended.image }} style={styles.image} />
-					<View style={styles.label}>
-						<Text style={styles.labelText}>{item.recommended.name}</Text>
-					</View>
-					<View style={styles.impact}>
-						<Text>{round(item.recommended.footprint)} kg CO₂</Text>
-					</View>
-					<View style={styles.recommendedPadding}/>
-				</View>
+				{ !item.recommended ? <></> : 
+					<>
+						<Text style={styles.recommendedLabel}>Recommended</Text>
+						<View style={styles.item}>
+							<Image source={{ uri: item.recommended.image }} style={styles.image} />
+							<View style={styles.label}>
+								<Text style={styles.labelText}>{item.recommended.name}</Text>
+							</View>
+							<View style={styles.impact}>
+								<Text>{round(item.recommended.footprint)} kg CO₂</Text>
+							</View>
+							<View style={styles.recommendedPadding}/>
+						</View>
+					</>
+				  }
 			</View>
 		);
 	};
