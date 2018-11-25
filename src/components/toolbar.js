@@ -30,7 +30,7 @@ export default function Toolbar() {
 								styles.buttonCurrent,
 						]}
 					>
-						<Text style={styles.text}>Carts</Text>
+						<Text style={styles.text}>Baskets</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={router.goToAccount}
