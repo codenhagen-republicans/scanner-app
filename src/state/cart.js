@@ -98,7 +98,9 @@ export default class CartContainer extends Container {
         const newProducts = this.state.products
             .map(product => {
                 const newProduct = Object.assign({}, product);
-                newProduct.quantity -= 1;
+                if (newProduct.key == productKey) {
+                    newProduct.quantity -= 1;
+                }
                 return newProduct;
             })
             .filter(product => product.quantity > 0);

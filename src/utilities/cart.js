@@ -29,9 +29,11 @@ const upload = async (axios, products) => {
 const download = async axios => {
     const response = await axios.get('baskets');
     return response.data.carts.map(cart => {
+        console.log('Psychosune');
+        console.log(cart.created_at);
         return {
             key: cart.id.toString(),
-            created_at: new Date(),
+            created_at: new Date(cart.created_at),
             products: cart.items.map(product => {
                 return {
                     key: product.ean,
