@@ -1,7 +1,7 @@
 import Config from 'react-native-config';
 
 const footprint = products => products.reduce(
-    (sum, product) => sum + (product.footprint || 0),
+    (sum, product) => sum + (product.footprint || 0) * (product.quantity || 1),
     0
 );
 
