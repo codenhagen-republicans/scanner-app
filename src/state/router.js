@@ -14,7 +14,7 @@ export default class RouterContainer extends Container {
 
 	go = view => this.setState({ view });
 
-    goToCarts = this.go.bind(this, CARTS);
+    goToCarts = () => this.go(CARTS);
 	goToIndex = () => this.go(INDEX);
 	goToScanner = () => this.go(SCANNER);
     goToViewCart = (cart) => {
