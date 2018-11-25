@@ -104,7 +104,7 @@ export default class ProductList extends React.Component {
 
 	renderItemLoading = () => {
 		return (
-			<View style={styles.item}>
+			<View style={[styles.item, styles.itemLoading]}>
 				<ActivityIndicator size="small" color="#999" style={styles.activity} />
 				<View style={styles.label}>
 					<Text style={styles.loadingText}>Loading…</Text>
@@ -178,6 +178,12 @@ const styles = StyleSheet.create({
 		minHeight: 64,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ddd',
+	},
+	itemLoading: {
+		paddingTop: 10,
+		paddingLeft: 20,
+		paddingRight: 20,
+		paddingBottom: 10,
 	},
 	item: {
 		flexDirection: 'row',
