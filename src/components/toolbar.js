@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Subscribe } from 'unstated';
-import RouterContainer, { CART, SCANNER, LOGIN, REGISTRATION } from '../state/router';
-import UserContainer from '../state/user';
+import RouterContainer, { CART, SCANNER, ACCOUNT } from '../state/router';
 
 export default function Toolbar() {
 	return (
-		<Subscribe to={[RouterContainer, UserContainer]}>
-			{(router, user) => (
+		<Subscribe to={[RouterContainer]}>
+			{(router) => (
 				<View style={styles.container}>
 					<TouchableOpacity
 						onPress={router.goToScanner}
@@ -27,28 +26,15 @@ export default function Toolbar() {
 					>
 						<Text style={styles.text}>Carts</Text>
 					</TouchableOpacity>
-					{!user.state.username && (
-						<>
-							<TouchableOpacity
-								onPress={router.goToLogin}
-								style={[
-									styles.button,
-									router.state.view === LOGIN && styles.buttonCurrent,
-								]}
-							>
-								<Text style={styles.text}>Log in</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								onPress={router.goToRegistration}
-								style={[
-									styles.button,
-									router.state.view === REGISTRATION && styles.buttonCurrent,
-								]}
-							>
-								<Text style={styles.text}>Register</Text>
-							</TouchableOpacity>
-						</>
-					)}
+					<TouchableOpacity
+						onPress={router.goToAccount}
+						style={[
+							styles.button,
+							router.state.view === ACCOUNT && styles.buttonCurrent,
+						]}
+					>
+						<Text style={styles.text}>Account</Text>
+					</TouchableOpacity>
 				</View>
 			)}
 		</Subscribe>

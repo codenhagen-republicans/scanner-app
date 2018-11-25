@@ -3,19 +3,18 @@ import { Provider, Subscribe } from 'unstated';
 import RouterContainer, {
 	CARTS,
 	INDEX,
-	LOGIN,
+	ACCOUNT,
 	SCANNER,
 	VIEW_CART,
-	REGISTRATION,
 } from './state/router';
 import UserContainer from './state/user';
 import PersistUserState from './components/persist-user-state';
 import PersistRouterState from './components/persist-router-state';
 import RouteIndex from './components/route-index';
-import RouteLogin from './components/route-login';
+import RouteAccount from './components/route-account';
 import RouteScanner from './components/route-scanner';
+import RouteCarts from './components/route-carts';
 import RouteViewCart from './components/route-view-cart';
-import RouteRegistration from './components/route-registration';
 import RouteNotFound from './components/route-not-found';
 
 export default class App extends React.Component {
@@ -32,17 +31,14 @@ export default class App extends React.Component {
 							case INDEX:
 								route = <RouteIndex />;
 								break;
-							case LOGIN:
-								route = <RouteLogin />;
+							case ACCOUNT:
+								route = <RouteAccount />;
 								break;
 							case SCANNER:
 								route = <RouteScanner />;
 								break;
 							case VIEW_CART:
 								route = <RouteViewCart cart={router.state.currentCart} />;
-								break;
-							case REGISTRATION:
-								route = <RouteRegistration />;
 								break;
 							default:
 								route = <RouteNotFound />;
