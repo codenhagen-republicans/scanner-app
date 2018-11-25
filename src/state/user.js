@@ -79,7 +79,39 @@ export default class UserContainer extends Container {
                 axios: this.makeAxios(body.access_token, body.refresh_token)
 			});
 		} catch (e) {
-			this.setState({ submitting: false, errorMessage: e.toString() });
+			this.setState({
+				submitting: false,
+				errorMessage: e.message
+			});
+		}
+	};
+
+	logout = async () => {
+		this.setState({ submitting: true, errorMessage: null });
+		try {
+			const res = await fetch(`${Config.APP_BACKEND_API_URL}/logout/access`, {
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': this.state.accessToken
+				},
+			});
+
+			const body = await res.json();
+
+			this.setState({
+				submitting: false,
+				errorMessage:
+					typeof body.message === 'string' ? body.message : 'You were logged out.',
+				username: null,
+				accessToken: '',
+				refreshToken: '',
+			});
+		} catch (e) {
+			this.setState({
+				submitting: false,
+				errorMessage: e.message,
+			});
 		}
 	};
 }

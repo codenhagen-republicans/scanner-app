@@ -2,14 +2,13 @@ import { Container } from 'unstated';
 
 export const CARTS = 'ROUTE_CARTS';
 export const INDEX = 'ROUTE_INDEX';
-export const LOGIN = 'ROUTE_LOGIN';
 export const SCANNER = 'ROUTE_SCANNER';
 export const VIEW_CART = 'ROUTE_VIEW_CART';
-export const REGISTRATION = 'ROUTE_REGISTRATION';
+export const ACCOUNT = 'ROUTE_ACCOUNT';
 
 export default class RouterContainer extends Container {
 	state = {
-		view: INDEX,
+        view: INDEX,
         currentCart: [],
 	};
 
@@ -24,6 +23,5 @@ export default class RouterContainer extends Container {
             view: VIEW_CART
         });
     };
-    goToLogin = () => this.go(LOGIN);
-    goToRegistration = () => this.go(REGISTRATION);
+    goToAccount = () => this.go(ACCOUNT);
 }

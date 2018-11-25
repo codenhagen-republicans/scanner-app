@@ -49,8 +49,10 @@ export default class CartContainer extends Container {
                 },
             });
 
-			var product = await response;
-            product = product.data.product;
+			var productResp = await response;
+            product = productResp.data.product;
+            recommended = productResp.data.recommendation;
+            recommended.name = (recommended.name && recommended.name.english) || 'No name';
 
 			if (!product || product.length === 0) {
 				this.update(ean, {
@@ -65,6 +67,7 @@ export default class CartContainer extends Container {
 				footprint: product.footprint,
 				image: product.image,
                 quantity: 1,
+                recommended: recommended,
 			});
 		} catch (e) {
 			this.update(ean, {
