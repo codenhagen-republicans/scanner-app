@@ -17,7 +17,16 @@ const wait = ms =>
 
 export default class CartContainer extends Container {
 	state = {
-		products: [],
+		products: [
+            {
+                key: '8410076400024',
+                status: 'PRODUCT_LOADED',
+                name: 'Old El Paso original salsa 340g hot',
+                footprint: 0.16864000000000004,
+                image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024',
+                quantity: 1,
+            }
+        ],
 	};
 
 	barCodeRead = throttle(barCode => {
@@ -40,8 +49,10 @@ export default class CartContainer extends Container {
                 },
             });
 
-			var product = await response;
-            product = product.data.product;
+			var productResp = await response;
+            product = productResp.data.product;
+            recommended = productResp.data.recommendation;
+            recommended.name = (recommended.name && recommended.name.english) || 'No name';
 
 			if (!product || product.length === 0) {
 				this.update(ean, {
@@ -56,6 +67,7 @@ export default class CartContainer extends Container {
 				footprint: product.footprint,
 				image: product.image,
                 quantity: 1,
+                recommended: recommended,
 			});
 		} catch (e) {
 			this.update(ean, {
@@ -65,7 +77,6 @@ export default class CartContainer extends Container {
 	};
 
 	add = product => {
-        console.log(this.state.products);
         const found = this.state.products
                 .filter(({ key }) => key === product.key)
 		if (found.length > 0) {
@@ -117,5 +128,5 @@ export default class CartContainer extends Container {
         });
     };
 
-    save = () => cart.upload(this.state.products);
+    save = axios => cart.upload(axios, this.state.products);
 }

@@ -19,7 +19,7 @@ export default class ProductList extends React.Component {
 	retryFns = [];
 
     componentWillUnmount() {
-        if (this.props.isEditable) {
+        if (this.props.isEditable && this.props.onUnmount) {
             this.props.onUnmount();
         }
     }
@@ -64,23 +64,36 @@ export default class ProductList extends React.Component {
 			this.addFns[item.key] || (() => this.props.onPlus(item));
 
 		return (
-			<View style={styles.item}>
-				<Image source={{ uri: item.image }} style={styles.image} />
-				<View style={styles.label}>
-					<Text style={styles.labelText}>{item.name}</Text>
+			<View style={styles.itemContainer}>
+				<View style={styles.item}>
+					<Image source={{ uri: item.image }} style={styles.image} />
+					<View style={styles.label}>
+						<Text style={styles.labelText}>{item.name}</Text>
+					</View>
+					<View style={styles.impact}>
+						<Text>{round(item.footprint)} kg CO₂</Text>
+					</View>
+					<View style={styles.quantity}>
+						{ this.props.isEditable
+								? (<NiceButton onPress={addFn}>+</NiceButton>)
+								: <></>}
+						<Text>{ item.quantity }</Text>
+						{ this.props.isEditable
+								? (<NiceButton onPress={removeFn}>-</NiceButton>)
+								: <></>}
+					</View>
 				</View>
-				<View style={styles.impact}>
-					<Text>{round(item.footprint)} kg CO₂</Text>
+				<Text style={styles.recommendedLabel}>Recommended</Text>
+				<View style={styles.item}>
+					<Image source={{ uri: item.recommended.image }} style={styles.image} />
+					<View style={styles.label}>
+						<Text style={styles.labelText}>{item.recommended.name}</Text>
+					</View>
+					<View style={styles.impact}>
+						<Text>{round(item.recommended.footprint)} kg CO₂</Text>
+					</View>
+					<View style={styles.recommendedPadding}/>
 				</View>
-                <View style={styles.quantity}>
-    				{ this.props.isEditable
-                            ? (<NiceButton onPress={addFn}>+</NiceButton>)
-                            : <></>}
-                    <Text>{ item.quantity }</Text>
-    				{ this.props.isEditable
-                            ? (<NiceButton onPress={removeFn}>-</NiceButton>)
-                            : <></>}
-                </View>
 			</View>
 		);
 	};
@@ -151,8 +164,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 10,
 	},
-	item: {
-		flexDirection: 'row',
+	itemContainer: {
+		flexDirection: 'column',
 		alignItems: 'center',
 		paddingTop: 10,
 		paddingLeft: 20,
@@ -161,6 +174,10 @@ const styles = StyleSheet.create({
 		minHeight: 64,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ddd',
+	},
+	item: {
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	image: {
 		width: 64,
@@ -173,6 +190,13 @@ const styles = StyleSheet.create({
 	},
 	labelText: {
 		fontWeight: 'bold',
+	},
+    recommendedLabel: {
+		width: '50%',
+		marginTop: 10,
+		borderTopWidth: 1,
+		borderTopColor: '#ddd',
+		textAlign: 'center',
 	},
 	impact: {
 		marginRight: 12,
@@ -196,17 +220,21 @@ const styles = StyleSheet.create({
 	retryButton: {
 		marginRight: 8,
 	},
-    centeredLine: {
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 5,
-    },
-    quantity: {
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    }
+	centeredLine: {
+		flexDirection: 'row',
+		flexWrap: 'nowrap',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 5,
+	},
+	quantity: {
+		flexDirection: 'column',
+		flexWrap: 'nowrap',
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		minWidth: 30,
+	},
+	recommendedPadding: {
+		minWidth: 30,
+	},
 });

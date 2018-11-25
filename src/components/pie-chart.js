@@ -34,10 +34,14 @@ export default class PieFootprint extends React.PureComponent {
 			);
 
 			const body = await res.json();
+			const foods = body.foods.map(food => ({
+				...food,
+				color: randomColor(),
+			}));
 
 			this.setState({
 				loading: false,
-				body: body.foods,
+				foods,
 			});
 		} catch (e) {
 			this.setState({
@@ -50,7 +54,7 @@ export default class PieFootprint extends React.PureComponent {
 		let data;
 
 		if (this.state.loading === true) {
-			data = [100];
+			<View style={{ height: 200 }} />;
 		}
 
 		if (
@@ -60,14 +64,12 @@ export default class PieFootprint extends React.PureComponent {
 			return <></>;
 		}
 
-		data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];
-
 		const pieData = this.state.foods
 			.filter(food => food.footprint > 0)
 			.map((food, index) => ({
 				value: food.footprint,
 				svg: {
-					fill: randomColor(),
+					fill: food.color,
 					onPress: () => console.log('press', index),
 				},
 				key: `pie-${index}`,

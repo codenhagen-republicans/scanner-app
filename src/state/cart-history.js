@@ -7,19 +7,19 @@ import cartLib from '../utilities/cart';
 export default class CartHistoryContaner extends Container {
     state = {
         carts: [
-            {
-                created_at: new Date(),
-                key: '0',
-                products: [
-                    {
-                        key: '8410076400024',
-                        status: 'PRODUCT_LOADED',
-                        name: 'Old El Paso original salsa 340g hot',
-                        footprint: 0.16864000000000004,
-                        image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024'
-                    }
-                ]
-            }
+            // {
+            //     created_at: new Date(),
+            //     key: '0',
+            //     products: [
+            //         {
+            //             key: '8410076400024',
+            //             status: 'PRODUCT_LOADED',
+            //             name: 'Old El Paso original salsa 340g hot',
+            //             footprint: 0.16864000000000004,
+            //             image: 'https://public.keskofiles.com/f/k-ruoka/product/8410076400024'
+            //         }
+            //     ]
+            // }
         ],
     }
 
@@ -43,18 +43,11 @@ export default class CartHistoryContaner extends Container {
         });
     }
 
-    load = async () => {
-        try {
-            const carts = await AsyncStorage
-                .getItem(CartHistoryContaner.CART_KEY);
-            if (value !== null) {
-                this.setState({
-                    carts: JSON.parse(carts)
-                });
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
+    load = async axios => {
+        const carts = await cartLib.download(axios);
+        this.setState({
+            carts: carts,
+        });
     }
 
     removeCart = cartId => {
@@ -78,19 +71,4 @@ export default class CartHistoryContaner extends Container {
             });
         }
     }
-
-    store = async () => {
-        for (k in this.state.carts) {
-            var cart = this.state.carts[k];
-            await cartLib.upload(cart.products);
-        }
-
-        try {
-            await AsyncStorage.setItem(CartHistoryContaner.CART_KEY,
-                JSON.stringify(this.carts));
-        } catch (error) {
-            // Error saving data
-        }
-    };
 }
-CartHistoryContaner.CART_KEY = '@ScannerApp:carts';

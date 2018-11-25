@@ -22,6 +22,14 @@ export default class CartList extends React.Component {
         );
     }
 
+    /*
+        <NiceButton
+                style={styles.action}
+                onPress={() => this.props.onView(item.products)}>
+            View
+        </NiceButton>
+        */
+
     renderItem = ({ item }) => {
         var date = format(item.created_at, 'dd-mm-yyyy');
         return (
@@ -33,12 +41,7 @@ export default class CartList extends React.Component {
                 <View style={styles.cartActions}>
                     <NiceButton
                             style={styles.action}
-                            onPress={() => this.props.onView(item.products)}>
-                        View
-                    </NiceButton>
-                    <NiceButton
-                            style={styles.action}
-                            onPress={() => this.props.onRemove(parseInt(item.key))}>
+                            onPress={() => this.props.onRemove(item)}>
                         Remove
                     </NiceButton>
                 </View>
