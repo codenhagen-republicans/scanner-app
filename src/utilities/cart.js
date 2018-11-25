@@ -38,15 +38,20 @@ const download = async axios => {
                     name: product.name,
                     quantity: product.quantity,
                     footprint: product.carbon_footprint,
-                    status: 'PRODUCT_LOADED',
+                    status: 'PRODUCT_LOADED'
                 };
             }),
         };
     });
 };
 
+const del = async (axios, id) => {
+    const response = await axios.delete(`baskets/${id}`);
+};
+
 export default {
     footprint,
+    del,
     download,
     upload,
 };

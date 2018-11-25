@@ -14,7 +14,6 @@ import RouteCarts from './components/route-carts';
 import RouteIndex from './components/route-index';
 import RouteAccount from './components/route-account';
 import RouteScanner from './components/route-scanner';
-import RouteCarts from './components/route-carts';
 import RouteViewCart from './components/route-view-cart';
 import RouteNotFound from './components/route-not-found';
 

@@ -8,6 +8,8 @@ import UserContainer from '../state/user';
 import CartList from './cart-list';
 import Toolbar from './toolbar';
 
+import cartLib from '../utilities/cart';
+
 export default function RouteCarts() {
     return (
         <Subscribe to={[CartHistoryContaner, RouterContainer, UserContainer]}>
@@ -16,7 +18,10 @@ export default function RouteCarts() {
 					<StatusBar barStyle="light-content" />
                     <CartList
                         carts={carts.state.carts}
-                        onRemove={carts.removeCart}
+                        onRemove={cart => {
+                            cartLib.del(auth.state.axios, cart.key);
+                            carts.removeCart(cart);
+                        }}
                         onView={router.goToViewCart}
                         onMount={carts.load.bind(carts, auth.state.axios)}
                     />

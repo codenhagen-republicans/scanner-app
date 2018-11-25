@@ -38,7 +38,7 @@ export default class CartList extends React.Component {
                     </NiceButton>
                     <NiceButton
                             style={styles.action}
-                            onPress={() => this.props.onRemove(parseInt(item.key))}>
+                            onPress={() => this.props.onRemove(item)}>
                         Remove
                     </NiceButton>
                 </View>
