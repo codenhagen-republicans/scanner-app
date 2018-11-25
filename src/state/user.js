@@ -76,7 +76,7 @@ export default class UserContainer extends Container {
 				method: 'post',
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': this.state.accessToken
+					'Authorization': `Bearer ${this.state.accessToken}`,
 				},
 			});
 
