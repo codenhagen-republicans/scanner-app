@@ -11,6 +11,7 @@ import RouterContainer, {
 import UserContainer from './state/user';
 import PersistUserState from './components/persist-user-state';
 import PersistRouterState from './components/persist-router-state';
+import RouteCarts from './components/route-carts';
 import RouteIndex from './components/route-index';
 import RouteLogin from './components/route-login';
 import RouteScanner from './components/route-scanner';
@@ -51,7 +52,7 @@ export default class App extends React.Component {
 						return (
 							<>
 								<PersistUserState
-									setState={user.setState.bind(user)}
+									setState={user.load}
 									user={user.state}
 								/>
 								<PersistRouterState go={router.go} route={router.state.view} />

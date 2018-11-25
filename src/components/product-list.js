@@ -19,7 +19,7 @@ export default class ProductList extends React.Component {
 	retryFns = [];
 
     componentWillUnmount() {
-        if (this.props.isEditable) {
+        if (this.props.isEditable && this.props.onUnmount) {
             this.props.onUnmount();
         }
     }
