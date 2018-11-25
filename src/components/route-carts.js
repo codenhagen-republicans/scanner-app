@@ -16,7 +16,7 @@ export default function RouteCarts() {
         <Subscribe to={[CartHistoryContaner, RouterContainer, UserContainer]}>
             {(carts, router, auth) => {
                 return (<View style={styles.container}>
-					<PieChart user={user} />
+					<PieChart user={auth} />
                     <CartList
                         carts={carts.state.carts}
                         onRemove={cart => {
